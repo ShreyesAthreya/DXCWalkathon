@@ -1,0 +1,24 @@
+{% extends 'stepsTracker/base.html' %}
+{% block content %}
+    <div class="container">
+        <br>
+        {% if object.user.id == user.id %}
+
+            <h1>Update your steps here!</h1>
+            <form method="POST">
+                {% csrf_token %}
+                {{ form.as_p }}
+
+                {% if object.user.id == user.id %}
+                    <button type="submit" class="btn btn-success">Update</button>
+                {% endif %}
+                <a href="{% url 'home' %}">
+                    <button type="button" class="btn btn-secondary">Back</button>
+                </a>
+            </form>
+
+        {% else %}
+            You are not allowed in here.
+        {% endif %}
+    </div>
+{% endblock %}

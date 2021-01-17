@@ -1,0 +1,46 @@
+{% extends 'stepsTracker/base.html' %}
+{% block content %}
+    <div class="container">
+        <div class="col">
+            <br>
+            <table id="tablePreview" class="table table-hover">
+                <thead>
+                <tr>
+                    <th>First Name</th>
+                    <th>Last Name</th>
+                    <th>Steps Travelled</th>
+                    <th>Week 1</th>
+                    <th>Week 2</th>
+                    <th>Week 3</th>
+                    <th>Week 4</th>
+                    <th>Week 5</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <td>{{ object.user.first_name }}</td>
+                    <td>{{ object.user.last_name }}</td>
+                    <td>{{ object.steps }}</td>
+                    <td>{{ object.week1 }}</td>
+                    <td>{{ object.week2 }}</td>
+                    <td>{{ object.week3 }}</td>
+                    <td>{{ object.week4 }}</td>
+                    <td>{{ object.week5 }}</td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+
+        {% if object.user.id == user.id %}
+
+            <a href="{% url 'update-steps' object.pk %}">
+                <button type="button" class="btn btn-success">Edit Steps</button>
+            </a>
+        {% endif %}
+        &nbsp;
+        <a href="{% url 'home' %}">
+            <button type="button" class="btn btn-secondary">Back</button>
+        </a>
+
+    </div>
+{% endblock %}

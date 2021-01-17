@@ -1,0 +1,45 @@
+{% extends 'stepsTracker/base.html' %}
+{% block content %}
+
+    <div class="container">
+        <br>
+        <br>
+        <br>
+        <div class="col-6 align-self-center">
+            <form method="POST">
+                <h1>Sign In</h1>
+                <hr>
+                {% csrf_token %}
+
+                <label for="username">Username</label>
+                <div class="input-group mb-3">
+                    <span class="input-group-text" id="basic-addon1"><i class="bi bi-person"></i></span>
+                    <input type="text" name='username' class="form-control" placeholder="Enter Username"
+                           aria-label="Username"
+                           aria-describedby="basic-addon1">
+                </div>
+
+                <label for="password">Password</label>
+                <div class="input-group mb-3">
+                    <span class="input-group-text" id="basic-addon1"><i class="bi bi-lock"></i></span>
+                    <input type="password" name='password' class="form-control" placeholder="Enter Password"
+                           aria-label="Password"
+                           aria-describedby="basic-addon1">
+                </div>
+                <button type="submit" class="btn btn-primary">Log In!</button>
+                &nbsp
+                <a class="btn btn-outline-success" href="{% url 'register' %}" role="button">Register</a>
+            </form>
+            <br>
+
+            {% if messages %}
+                {% for message in messages %}
+                    <div class="alert alert-danger" role="alert">
+                        {{ message }}
+                    </div>
+                {% endfor %}
+            {% endif %}
+        </div>
+        <br>
+    </div>
+{% endblock %}

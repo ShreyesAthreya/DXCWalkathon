@@ -1,0 +1,16 @@
+{% extends 'stepsTracker/base.html' %}
+{% block content %}
+    <div class="container">
+        <br>
+        <h1>Create your forms here!</h1>
+        <form method="POST">
+            {% csrf_token %}
+            Hello
+            {{ form.as_p }}
+            <button type="submit" class="btn btn-primary">Submit</button>
+        </form>
+
+        <a href="{% url 'home' %}">Back</a>
+
+    </div>
+{% endblock %}
