@@ -1,4 +1,57 @@
 {% extends 'stepsTracker/base.html' %}
+{% block scripts %}
+<script>
+    $(document).ready(function () {
+    let ctx = document.getElementById('myChart').getContext('2d');
+    let myChart = new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: ['Week 1', 'Week 2', 'Week 3', 'Week 4', 'Week 5'],
+            datasets: [{
+                label: 'Total steps walked per week',
+                data: [{{ object.week1 }}, {{ object.week2 }}, {{ object.week3 }}, {{ object.week4 }}, {{ object.week5 }}],
+                backgroundColor: [
+                'rgba(54, 162, 235, 0.2)',
+                    'rgba(54, 162, 235, 0.2)',
+                    'rgba(54, 162, 235, 0.2)',
+                    'rgba(54, 162, 235, 0.2)',
+                    'rgba(54, 162, 235, 0.2)'
+                ],
+                borderColor: [
+                'rgba(54, 162, 235, 0.2)',
+                'rgba(54, 162, 235, 0.2)',
+                'rgba(54, 162, 235, 0.2)',
+                'rgba(54, 162, 235, 0.2)',
+                'rgba(54, 162, 235, 0.2)'   
+                ],
+                borderWidth: 1
+            }]
+        },
+        options: {
+            title:{
+                display:true,
+                text:'Total Steps taken per week'
+            },
+            legend:{
+                display:false
+            },
+            scales: {
+        xAxes: [{
+            gridLines: {
+                drawOnChartArea: false
+            }
+        }],
+        yAxes: [{
+            gridLines: {
+                drawOnChartArea: false
+                }   
+        }]
+    }
+        }
+    });
+    });
+    </script>    
+{% endblock scripts %}
 {% block content %}
     <div class="container">
         <div class="col">
@@ -42,5 +95,10 @@
             <button type="button" class="btn btn-secondary">Back</button>
         </a>
 
+    </div>
+    <div class="container col-4">
+        <div class="row">
+            <canvas id="myChart" width="400" height="250"></canvas>
+        </div>
     </div>
 {% endblock %}

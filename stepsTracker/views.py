@@ -125,8 +125,20 @@ class HomeView(ListView):
         try:
             context['totalSteps'] = int(list(Step.objects.aggregate(Sum('steps')).values())[0])
             context['remaining'] = 7966 - context['totalSteps']
+            context['week1'] = round(float(list(Step.objects.aggregate(Sum('week1')).values())[0]),2)
+            context['week2'] = round(float(list(Step.objects.aggregate(Sum('week2')).values())[0]),2)
+            context['week3'] = round(float(list(Step.objects.aggregate(Sum('week3')).values())[0]),2)
+            context['week4'] = round(float(list(Step.objects.aggregate(Sum('week4')).values())[0]),2)
+            context['week5'] = round(float(list(Step.objects.aggregate(Sum('week5')).values())[0]),2)
+            context['rweek1'] = round(7966-context['week1'],2)
+            context['rweek2'] = round(7966-(context['week1']+context['week2']),2)
+            context['rweek3'] = round(7966-(context['week1']+context['week2']+context['week3']),2)
+            context['rweek4'] = round(7966-(context['week1']+context['week2']+context['week3']+context['week4']),2)
+            context['rweek5'] = round(7966-(context['week1']+context['week2']+context['week3']+context['week4']+context['week5']),2)
             if context['remaining'] < 0:
                 context['remaining'] = 0
+            if context['rweek5'] < 0:
+                context['rweek5'] = 0
         except:
             pass
         return context

@@ -7,9 +7,8 @@
             let myChart = new Chart(ctx, {
                 type: 'doughnut',
                 data: {
-                    labels: ['Walked so far', 'Remaining'],
+                    labels: ["Walked so far {{totalSteps}}", "Remaining {{remaining}}"],
                     datasets: [{
-                        label: '# of Votes',
                         data: [{{ totalSteps }}, {{ remaining }}],
                         backgroundColor: [
                             '#5D386B',
@@ -22,7 +21,15 @@
                         borderWidth: 1
                     }]
                 },
-                options: {
+                options: {title: {
+    display: true,
+    text: 'Total steps taken VS remaining steps'
+  },
+  legend:{
+    diaplay:true,  
+    position: 'right'
+
+  },
 
                     scales: {
                         xAxes: [{
@@ -38,6 +45,71 @@
                 }
             });
         });
+
+        $(document).ready(function () {
+    let ctx = document.getElementById('myChart_bar').getContext('2d');
+    let myChart = new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: ['Week 1', 'Week 2', 'Week 3', 'Week 4', 'Week 5'],
+            datasets: [{
+                label: 'Walked so far',
+                data: [{{ week1 }}, {{ week2 }}, {{ week3 }}, {{ week4 }}, {{ week5 }}],
+                backgroundColor: [
+                '#5D386B',
+                '#5D386B',
+                '#5D386B',
+                '#5D386B',
+                '#5D386B'],
+                borderColor: [
+                '#5D386B',
+                '#5D386B',
+                '#5D386B',
+                '#5D386B',
+                '#5D386B'],
+                borderWidth: 1,
+            },
+            {
+                label: 'Remaining steps per week',
+                data: [{{ rweek1 }}, {{ rweek2 }}, {{ rweek3 }}, {{ rweek4 }}, {{ rweek5 }}],
+                type: 'line',
+                backgroundColor: [
+                '#02C39A',
+                '#02C39A',
+                '#02C39A',
+                '#02C39A',
+                '#02C39A'
+                ],
+                borderColor: [
+                '#02C39A',
+                '#02C39A',
+                '#02C39A',
+                '#02C39A',
+                '#02C39A'],
+                borderWidth: 5,
+                fill: false,
+                lineTension: 0
+            }
+        ]
+        },
+        options: {
+            legend: {
+    display: false,
+  },
+  title: {
+    display: true,
+    text: 'Steps taken VS Steps remaining per week'
+  },
+            scales: {
+                yAxes: [{
+                    ticks: {
+                        beginAtZero: true
+                    }
+                }]
+            }
+        }
+    });
+    });
 
     </script>
 {% endblock scripts %}
@@ -91,6 +163,11 @@
         <br>
         &nbsp;
         <canvas id="myChart" width="100" height="50"></canvas>
+    </div>
+    <br>
+    <br>
+    <div class="row">
+        <canvas id="myChart_bar" width="100" height="50"></canvas>
     </div>
 </div>
 </div>
