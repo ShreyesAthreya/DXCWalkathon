@@ -113,19 +113,22 @@ class HomeView(ListView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context["qs"] = Step.objects.all()
+        context[
+            'openingMessage'] = "So I thought as I sipped a few glasses of wine over Christmas, " \
+                                "I think we should walk from Ireland to India. Sure, why not!!!. " \
+                                "This January, the Irish Early Careers team is going to walk from Ireland to India, " \
+                                "which is only 7,996 km!. It is a big personal challenge for all of us, but we are ready - " \
+                                "bring it on!!. A good starting point is to get yourself registered first. " \
+                                "\n \n \n" \
+                                "Click on the 'Sign Up' button at the top of the page if you haven't already." \
+                                "\n \tClick on Sign in to register your steps."
         try:
-            context['totalSteps'] = float(list(Step.objects.aggregate(Sum('steps')).values())[0])
+            context['totalSteps'] = int(list(Step.objects.aggregate(Sum('steps')).values())[0])
             context['remaining'] = 7966 - context['totalSteps']
+            if context['remaining'] < 0:
+                context['remaining'] = 0
         except:
-            context[
-                'openingMessage'] = "So I thought as I sipped a few glasses of wine over Christmas, " \
-                                    "I think we should walk from Ireland to India. Sure, why not!!!. " \
-                                    "This January, the Irish Early Careers team is going to walk from Ireland to India, " \
-                                    "which is only 7,996 km!. It is a big personal challenge for all of us, but we are ready - " \
-                                    "bring it on!!. A good starting point is to get yourself registered first. " \
-                                    "\n \n \n" \
-                                    "Click on the 'Sign Up' button at the top of the page if you haven't already." \
-                                    "\n \tClick on Sign in to register your steps."
+            pass
         return context
 
 
