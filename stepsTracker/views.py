@@ -31,7 +31,7 @@ def register(request):
     if request.method == 'POST':
         team_name = request.POST['team_name']
         lead_name = request.POST['lead_name']
-        username = request.POST['username']
+        username = str(request.POST['username']).lower()
         password1 = request.POST['password1']
         password2 = request.POST['password2']
         my_list = [team_name, lead_name, username, password1, password2]
@@ -63,7 +63,7 @@ def register(request):
 
 def signin(request):
     if request.method == 'POST':
-        username = request.POST['username']
+        username = str(request.POST['username']).lower()
         password = request.POST['password']
 
         user = auth.authenticate(username=username, password=password)
