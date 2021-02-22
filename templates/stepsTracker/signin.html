@@ -39,6 +39,11 @@
                     </div>
                 {% endfor %}
             {% endif %}
+            {% if error %}
+                <div class="alert alert-danger" role="alert">
+                    {{ error }}
+                </div>
+            {% endif %}
         </div>
         <br>
     </div>

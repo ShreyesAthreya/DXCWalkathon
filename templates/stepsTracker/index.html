@@ -7,7 +7,7 @@
             let myChart = new Chart(ctx, {
                 type: 'doughnut',
                 data: {
-                    labels: ["Walked so far {{totalSteps}}", "Remaining {{remaining}}"],
+                    labels: ["Travelled", "Remaining"],
                     datasets: [{
                         data: [{{ totalSteps }}, {{ remaining }}],
                         backgroundColor: [
@@ -21,15 +21,10 @@
                         borderWidth: 1
                     }]
                 },
-                options: {title: {
-    display: true,
-    text: 'Total steps taken VS remaining steps'
-  },
-  legend:{
-    diaplay:true,  
-    position: 'right'
-
-  },
+                options: {
+                    legend: {
+                        diaplay: true,
+                    },
 
                     scales: {
                         xAxes: [{
@@ -47,76 +42,76 @@
         });
 
         $(document).ready(function () {
-    let ctx = document.getElementById('myChart_bar').getContext('2d');
-    let myChart = new Chart(ctx, {
-        type: 'bar',
-        data: {
-            labels: ['Week 1', 'Week 2', 'Week 3', 'Week 4', 'Week 5'],
-            datasets: [{
-                label: 'Walked so far',
-                data: [{{ week1 }}, {{ week2 }}, {{ week3 }}, {{ week4 }}, {{ week5 }}],
-                backgroundColor: [
-                '#5D386B',
-                '#5D386B',
-                '#5D386B',
-                '#5D386B',
-                '#5D386B'],
-                borderColor: [
-                '#5D386B',
-                '#5D386B',
-                '#5D386B',
-                '#5D386B',
-                '#5D386B'],
-                borderWidth: 1,
-            },
-            {
-                label: 'Remaining steps per week',
-                data: [{{ rweek1 }}, {{ rweek2 }}, {{ rweek3 }}, {{ rweek4 }}, {{ rweek5 }}],
-                type: 'line',
-                backgroundColor: [
-                '#02C39A',
-                '#02C39A',
-                '#02C39A',
-                '#02C39A',
-                '#02C39A'
-                ],
-                borderColor: [
-                '#02C39A',
-                '#02C39A',
-                '#02C39A',
-                '#02C39A',
-                '#02C39A'],
-                borderWidth: 5,
-                fill: false,
-                lineTension: 0
-            }
-        ]
-        },
-        options: {
-            legend: {
-    display: false,
-  },
-  title: {
-    display: true,
-    text: 'Steps taken VS Steps remaining per week'
-  },
-            scales: {
-                yAxes: [{
-                    ticks: {
-                        beginAtZero: true
+            let ctx = document.getElementById('myChart_bar').getContext('2d');
+            let myChart = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: ['Week 1', 'Week 2', 'Week 3', 'Week 4', 'Week 5'],
+                    datasets: [{
+                        label: 'Walked so far',
+                        data: [{{ week1 }}, {{ week2 }}, {{ week3 }}, {{ week4 }}, {{ week5 }}],
+                        backgroundColor: [
+                            '#5D386B',
+                            '#5D386B',
+                            '#5D386B',
+                            '#5D386B',
+                            '#5D386B'],
+                        borderColor: [
+                            '#5D386B',
+                            '#5D386B',
+                            '#5D386B',
+                            '#5D386B',
+                            '#5D386B'],
+                        borderWidth: 1,
+                    },
+                        {
+                            label: 'Remaining steps per week',
+                            data: [{{ rweek1 }}, {{ rweek2 }}, {{ rweek3 }}, {{ rweek4 }}, {{ rweek5 }}],
+                            type: 'line',
+                            backgroundColor: [
+                                '#02C39A',
+                                '#02C39A',
+                                '#02C39A',
+                                '#02C39A',
+                                '#02C39A'
+                            ],
+                            borderColor: [
+                                '#02C39A',
+                                '#02C39A',
+                                '#02C39A',
+                                '#02C39A',
+                                '#02C39A'],
+                            borderWidth: 5,
+                            fill: false,
+                            lineTension: 0
+                        }
+                    ]
+                },
+                options: {
+                    legend: {
+                        display: false,
+                    },
+                    title: {
+                        display: true,
+                        text: 'Steps taken VS Steps remaining per week'
+                    },
+                    scales: {
+                        yAxes: [{
+                            ticks: {
+                                beginAtZero: true
+                            }
+                        }]
                     }
-                }]
-            }
-        }
-    });
-    });
+                }
+            });
+        });
 
     </script>
 {% endblock scripts %}
 {% block content %}
 
 
-        <div class="row">
+    <div class="row">
         <div class="container col-7">
             <br>
             <br>
@@ -128,15 +123,19 @@
                     </div>
                 {% endfor %}
             {% endif %}
+            {##}
+            {#            <h1>Thanks to everyone for your contribution</h1>#}
+            {#            <h3>Travelled Distance: {{ totalSteps }} Kms </h3>#}
+            {#            <h3>Goal Distance: 7966 Kms </h3>#}
 
             <div class="col">
                 <table id="tablePreview" class="table table-hover">
                     <thead>
                     <tr>
                         <th>#</th>
-                        <th>First Name</th>
-                        <th>Last Name</th>
-                        <th>Steps Travelled</th>
+                        <th>Team Name</th>
+                        <th>Lead</th>
+                        <th>Distance Travelled</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -158,31 +157,15 @@
             </div>
         </div>
 
-<div class="container col-4">
-    <div class="row">
-        <br>
-        &nbsp;
-        <canvas id="myChart" width="100" height="50"></canvas>
-    </div>
-    <br>
-    <br>
-    <div class="row">
-        <canvas id="myChart_bar" width="100" height="50"></canvas>
-    </div>
-</div>
-</div>
-
-    {% if not user.is_authenticated %}
-        <br>
-        <div class="container">
+        <div class="container col-4">
+            <div class="row">
+                <br>
+                &nbsp;
+                <canvas id="myChart" width="100" height="50"></canvas>
+            </div>
             <br>
             <br>
-            {{ openingMessage }}
         </div>
-
-    {% endif %}
-
-
+    </div>
 
 {% endblock content %}
-

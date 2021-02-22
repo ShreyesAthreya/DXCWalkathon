@@ -16,11 +16,11 @@ class CreateStepsForm(forms.ModelForm):
             'week5': forms.TextInput(attrs={'class': 'form-control'}),
         }
         labels = {
-            'week1': 'Enter your steps walked from Jan 4 till Jan 10 in Kilometers',
-            'week2': 'Jan 11 till Jan 17 goes here',
-            'week3': 'Jan 18 till Jan 24 and so on',
-            'week4': 'Jan 25 till Jan 31',
-            'week5': 'Feb 1 till Feb 4',
+            'week1': 'Feb 15th - Feb 21st',
+            'week2': 'Feb 22nd - Feb 28th',
+            'week3': 'March 1st - March 7th',
+            'week4': 'March 8th - March 14th',
+            'week5': 'March 15th - March 17th',
         }
 
 
@@ -37,9 +37,9 @@ class UpdateStepForm(forms.ModelForm):
             'week5': forms.TextInput(attrs={'class': 'form-control'}),
         }
         labels = {
-            'week1': 'Jan 4 - Jan 10',
-            'week2': 'Jan 11 - Jan 17',
-            'week3': 'Jan 18 - Jan 24',
-            'week4': 'Jan 25 - Jan 31',
-            'week5': 'Feb 1 - Feb 4',
+            'week1': 'Feb 15th - Feb 21st',
+            'week2': 'Feb 22nd - Feb 28th',
+            'week3': 'March 1st - March 7th',
+            'week4': 'March 8th - March 14th',
+            'week5': 'March 15th - March 17th',
         }

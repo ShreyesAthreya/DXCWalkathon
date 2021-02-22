@@ -29,25 +29,25 @@ from .models import Step
 
 def register(request):
     if request.method == 'POST':
-
-        first_name = request.POST['first_name']
-        last_name = request.POST['last_name']
+        team_name = request.POST['team_name']
+        lead_name = request.POST['lead_name']
         username = request.POST['username']
         password1 = request.POST['password1']
         password2 = request.POST['password2']
-        my_list = [first_name, last_name, username, password1, password2]
+        my_list = [team_name, lead_name, username, password1, password2]
 
         if '' in my_list:
             return render(request, 'stepsTracker/register.html', {'error': 'Fields can\'t be blank'})
 
         if password1 == password2:
             try:
-                user = User.objects.create_user(username=username, first_name=first_name, last_name=last_name,
+                user = User.objects.create_user(username=username, first_name=team_name, last_name=lead_name,
                                                 password=password1)
                 user.save()
                 messages.success(request, "You have registered successfully!")
                 login(request, user)
                 return redirect("add-steps")
+
             except ValueError:
                 return render(request, 'stepsTracker/register.html', {'error': 'Username can\'t be blank'})
 
@@ -55,7 +55,7 @@ def register(request):
                 return render(request, 'stepsTracker/register.html',
                               {'error': 'Username already taken. Please choose another one'})
         else:
-            return render(request, 'stepsTracker/register.html', {'error': 'Password did not match'})
+            return render(request, 'stepsTracker/register.html', {'error': 'Passwords did not match'})
 
     else:
         return render(request, 'stepsTracker/register.html')
@@ -92,14 +92,17 @@ def addSteps(request):
     form = CreateStepsForm()
 
     if request.method == 'POST':
-        request.POST = request.POST.copy()
-        form = CreateStepsForm(request.POST)
-        if form.is_valid():
-            profile = form.save(commit=False)
-            profile.user = request.user
-            profile.save()
-            messages.success(request, "You have added your steps successfully!")
-        return redirect("home")
+        try:
+            request.POST = request.POST.copy()
+            form = CreateStepsForm(request.POST)
+            if form.is_valid():
+                profile = form.save(commit=False)
+                profile.user = request.user
+                profile.save()
+                messages.success(request, "You have added your steps successfully!")
+            return redirect("home")
+        except ValueError:
+            return render(request, 'stepsTracker/signin.html', {'error': 'You need to login first'})
 
     context = {'form': form}
     return render(request, 'stepsTracker/createSteps.html', context)
@@ -113,32 +116,17 @@ class HomeView(ListView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context["qs"] = Step.objects.all()
-        context[
-            'openingMessage'] = "So I thought as I sipped a few glasses of wine over Christmas, " \
-                                "I think we should walk from Ireland to India. Sure, why not!!!. " \
-                                "This January, the Irish Early Careers team is going to walk from Ireland to India, " \
-                                "which is only 7,996 km!. It is a big personal challenge for all of us, but we are ready - " \
-                                "bring it on!!. A good starting point is to get yourself registered first. " \
-                                "\n \n \n" \
-                                "Click on the 'Sign Up' button at the top of the page if you haven't already." \
-                                "\n \tClick on Sign in to register your steps."
         try:
             context['totalSteps'] = int(list(Step.objects.aggregate(Sum('steps')).values())[0])
-            context['remaining'] = 7966 - context['totalSteps']
-            context['week1'] = round(float(list(Step.objects.aggregate(Sum('week1')).values())[0]),2)
-            context['week2'] = round(float(list(Step.objects.aggregate(Sum('week2')).values())[0]),2)
-            context['week3'] = round(float(list(Step.objects.aggregate(Sum('week3')).values())[0]),2)
-            context['week4'] = round(float(list(Step.objects.aggregate(Sum('week4')).values())[0]),2)
-            context['week5'] = round(float(list(Step.objects.aggregate(Sum('week5')).values())[0]),2)
-            context['rweek1'] = round(7966-context['week1'],2)
-            context['rweek2'] = round(7966-(context['week1']+context['week2']),2)
-            context['rweek3'] = round(7966-(context['week1']+context['week2']+context['week3']),2)
-            context['rweek4'] = round(7966-(context['week1']+context['week2']+context['week3']+context['week4']),2)
-            context['rweek5'] = round(7966-(context['week1']+context['week2']+context['week3']+context['week4']+context['week5']),2)
+            context['remaining'] = 40000 - context['totalSteps']
+            context['week1'] = round(float(list(Step.objects.aggregate(Sum('week1')).values())[0]), 2)
+            context['week2'] = round(float(list(Step.objects.aggregate(Sum('week2')).values())[0]), 2)
+            context['week3'] = round(float(list(Step.objects.aggregate(Sum('week3')).values())[0]), 2)
+            context['week4'] = round(float(list(Step.objects.aggregate(Sum('week4')).values())[0]), 2)
+            context['week5'] = round(float(list(Step.objects.aggregate(Sum('week5')).values())[0]), 2)
+
             if context['remaining'] < 0:
                 context['remaining'] = 0
-            if context['rweek5'] < 0:
-                context['rweek5'] = 0
         except:
             pass
         return context
