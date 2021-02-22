@@ -76,7 +76,7 @@ WSGI_APPLICATION = 'WalkerTracker.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / str(BASE_DIR / 'dxcDash.sqlite3'),
+        'NAME': str(BASE_DIR / 'dxcDash.sqlite3'),
     }
 }
 
