@@ -28,43 +28,62 @@ from .models import Step
 
 
 def register(request):
-    if request.method == 'POST':
-        team_name = request.POST['team_name']
-        lead_name = request.POST['lead_name']
-        username = str(request.POST['username']).lower()
-        password1 = request.POST['password1']
-        password2 = request.POST['password2']
+    if request.method == "POST":
+        team_name = request.POST["team_name"]
+        lead_name = request.POST["lead_name"]
+        username = str(request.POST["username"]).lower()
+        password1 = request.POST["password1"]
+        password2 = request.POST["password2"]
         my_list = [team_name, lead_name, username, password1, password2]
 
-        if '' in my_list:
-            return render(request, 'stepsTracker/register.html', {'error': 'Fields can\'t be blank'})
+        if "" in my_list:
+            return render(
+                request,
+                "stepsTracker/register.html",
+                {"error": "Fields can't be blank"},
+            )
 
         if password1 == password2:
             try:
-                user = User.objects.create_user(username=username, first_name=team_name, last_name=lead_name,
-                                                password=password1)
+                user = User.objects.create_user(
+                    username=username,
+                    first_name=team_name,
+                    last_name=lead_name,
+                    password=password1,
+                )
                 user.save()
                 messages.success(request, "You have registered successfully!")
                 login(request, user)
                 return redirect("add-steps")
 
             except ValueError:
-                return render(request, 'stepsTracker/register.html', {'error': 'Username can\'t be blank'})
+                return render(
+                    request,
+                    "stepsTracker/register.html",
+                    {"error": "Username can't be blank"},
+                )
 
             except IntegrityError:
-                return render(request, 'stepsTracker/register.html',
-                              {'error': 'Username already taken. Please choose another one'})
+                return render(
+                    request,
+                    "stepsTracker/register.html",
+                    {"error": "Username already taken. Please choose another one"},
+                )
         else:
-            return render(request, 'stepsTracker/register.html', {'error': 'Passwords did not match'})
+            return render(
+                request,
+                "stepsTracker/register.html",
+                {"error": "Passwords did not match"},
+            )
 
     else:
-        return render(request, 'stepsTracker/register.html')
+        return render(request, "stepsTracker/register.html")
 
 
 def signin(request):
-    if request.method == 'POST':
-        username = str(request.POST['username']).lower()
-        password = request.POST['password']
+    if request.method == "POST":
+        username = str(request.POST["username"]).lower()
+        password = request.POST["password"]
 
         user = auth.authenticate(username=username, password=password)
 
@@ -77,9 +96,9 @@ def signin(request):
                 return redirect("add-steps")
         else:
             messages.error(request, "Unable to verify username and password")
-            return redirect('signin')
+            return redirect("signin")
 
-    return render(request, 'stepsTracker/signin.html')
+    return render(request, "stepsTracker/signin.html")
 
 
 def logout(request):
@@ -91,7 +110,7 @@ def logout(request):
 def addSteps(request):
     form = CreateStepsForm()
 
-    if request.method == 'POST':
+    if request.method == "POST":
         try:
             request.POST = request.POST.copy()
             form = CreateStepsForm(request.POST)
@@ -102,42 +121,63 @@ def addSteps(request):
                 messages.success(request, "You have added your steps successfully!")
             return redirect("home")
         except ValueError:
-            return render(request, 'stepsTracker/signin.html', {'error': 'You need to login first'})
+            return render(
+                request,
+                "stepsTracker/signin.html",
+                {"error": "You need to login first"},
+            )
 
-    context = {'form': form}
-    return render(request, 'stepsTracker/createSteps.html', context)
+    context = {"form": form}
+    return render(request, "stepsTracker/createSteps.html", context)
 
 
 class HomeView(ListView):
     model = Step
-    template_name = 'stepsTracker/index.html'
-    ordering = ['-steps']
+    template_name = "stepsTracker/index.html"
+    ordering = ["-steps"]
+    print("Hello")
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context["qs"] = Step.objects.all()
         try:
-            context['totalSteps'] = int(list(Step.objects.aggregate(Sum('steps')).values())[0])
-            context['remaining'] = 40000 - context['totalSteps']
-            context['week1'] = round(float(list(Step.objects.aggregate(Sum('week1')).values())[0]), 2)
-            context['week2'] = round(float(list(Step.objects.aggregate(Sum('week2')).values())[0]), 2)
-            context['week3'] = round(float(list(Step.objects.aggregate(Sum('week3')).values())[0]), 2)
-            context['week4'] = round(float(list(Step.objects.aggregate(Sum('week4')).values())[0]), 2)
-            context['week5'] = round(float(list(Step.objects.aggregate(Sum('week5')).values())[0]), 2)
+            print("total")
+            context["totalSteps"] = int(
+                list(Step.objects.aggregate(Sum("steps")).values())[0]
+            )
+            print("total")
 
-            if context['remaining'] < 0:
-                context['remaining'] = 0
+            context["remaining"] = 40000 - context["totalSteps"]
+            print("remaining: ")
+
+            context["week1"] = round(
+                float(list(Step.objects.aggregate(Sum("week1")).values())[0]), 2
+            )
+            print("week1")
+
+            context["week2"] = round(
+                float(list(Step.objects.aggregate(Sum("week2")).values())[0]), 2
+            )
+            context["week3"] = round(
+                float(list(Step.objects.aggregate(Sum("week3")).values())[0]), 2
+            )
+            context["week4"] = round(
+                float(list(Step.objects.aggregate(Sum("week4")).values())[0]), 2
+            )
+            if context["remaining"] < 0:
+                context["remaining"] = 0
         except:
             pass
+
         return context
 
 
 class StepDetailView(DetailView):
     model = Step
-    template_name = 'stepsTracker/viewSteps.html'
+    template_name = "stepsTracker/viewSteps.html"
 
 
 class UpdateStepView(UpdateView):
     model = Step
-    template_name = 'stepsTracker/updateSteps.html'
+    template_name = "stepsTracker/updateSteps.html"
     form_class = UpdateStepForm

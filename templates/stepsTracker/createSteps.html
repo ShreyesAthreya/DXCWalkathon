@@ -4,7 +4,7 @@
         <br>
         <h1>Lets add some data to track</h1>
         <form method="POST">
-            <h4>Enter your distance travelled in Kilometers without any commas</h4>
+            <h4>Enter your steps walked without any commas</h4>
             {% csrf_token %}
             {{ form.as_p }}
             <button type="submit" class="btn btn-primary">Submit</button>
