@@ -123,10 +123,10 @@
                     </div>
                 {% endfor %}
             {% endif %}
-            {##}
+            <!-- {##}
             {#            <h1>Thanks to everyone for your contribution</h1>#}
             {#            <h3>Travelled Distance: {{ totalSteps }} Kms </h3>#}
-            {#            <h3>Goal Distance: 7966 Kms </h3>#}
+            {#            <h3>Goal Distance: 7966 Kms </h3>#} -->
 
             <div class="col">
                 <table id="tablePreview" class="table table-hover">
@@ -135,7 +135,7 @@
                         <th>#</th>
                         <th>Team Name</th>
                         <th>Lead</th>
-                        <th>Distance Travelled</th>
+                        <th>Steps Travelled</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -144,7 +144,7 @@
                             <th scope="row">{{ forloop.counter }}</th>
                             <td>{{ item.user.first_name }}</td>
                             <td>{{ item.user.last_name }}</td>
-                            <td>{{ item.steps }}Kms
+                            <td>{{ item.steps }}
                                 <a href="{% url 'view-steps' item.pk %}">(View)</a>
                                 {% if item.user.id == user.id %}
                                     <a href="{% url 'update-steps' item.pk %}">(Edit)</a>
@@ -157,7 +157,7 @@
             </div>
         </div>
 
-        <div class="container col-4">
+        <!-- <div class="container col-4">
             <div class="row">
                 <br>
                 &nbsp;
@@ -165,7 +165,7 @@
             </div>
             <br>
             <br>
-        </div>
+        </div> -->
     </div>
 
 {% endblock content %}

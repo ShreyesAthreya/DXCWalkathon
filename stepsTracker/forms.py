@@ -15,10 +15,10 @@ class CreateStepsForm(forms.ModelForm):
             "week4": forms.TextInput(attrs={"class": "form-control"}),
         }
         labels = {
-            "week1": "May 10th - May 17st",
-            "week2": "May 18th - May 24th",
-            "week3": "May 25st - May 31st",
-            "week4": "June 1th - June 7th",
+            "week1": "May 10th - May 16th",
+            "week2": "May 17th - May 23rd",
+            "week3": "May 24th - May 30th",
+            "week4": "May 31st - June 6th",
         }
 
 
@@ -34,8 +34,8 @@ class UpdateStepForm(forms.ModelForm):
             "week4": forms.TextInput(attrs={"class": "form-control"}),
         }
         labels = {
-            "week1": "May 10th - May 17st",
-            "week2": "May 18th - May 24th",
-            "week3": "May 25st - May 31st",
-            "week4": "June 1th - June 7th",
+            "week1": "May 10th - May 16th",
+            "week2": "May 17th - May 23rd",
+            "week3": "May 24th - May 30th",
+            "week4": "May 31st - June 6th",
         }
