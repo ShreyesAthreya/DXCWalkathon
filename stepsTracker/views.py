@@ -3,6 +3,7 @@ from django.contrib.auth import login
 from django.contrib.auth.models import User
 from django.db import IntegrityError
 from django.db.models import Sum
+from django.db.models.aggregates import Count
 from django.shortcuts import render, redirect
 from django.views.generic import ListView, DetailView, UpdateView
 
@@ -135,39 +136,35 @@ class HomeView(ListView):
     model = Step
     template_name = "stepsTracker/index.html"
     ordering = ["-steps"]
-    print("Hello")
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context["qs"] = Step.objects.all()
-        try:
-            print("total")
-            context["totalSteps"] = int(
-                list(Step.objects.aggregate(Sum("steps")).values())[0]
-            )
-            print("total")
 
-            context["remaining"] = 40000 - context["totalSteps"]
-            print("remaining: ")
+        allSteps = []
+        for item in context["qs"]:
+            allSteps.append([int(item.steps), str(item)])
 
-            context["week1"] = round(
-                float(list(Step.objects.aggregate(Sum("week1")).values())[0]), 2
-            )
-            print("week1")
+        top5 = sorted(allSteps, key=lambda x: -x[0])
 
-            context["week2"] = round(
-                float(list(Step.objects.aggregate(Sum("week2")).values())[0]), 2
-            )
-            context["week3"] = round(
-                float(list(Step.objects.aggregate(Sum("week3")).values())[0]), 2
-            )
-            context["week4"] = round(
-                float(list(Step.objects.aggregate(Sum("week4")).values())[0]), 2
-            )
-            if context["remaining"] < 0:
-                context["remaining"] = 0
-        except:
-            pass
+        top5 = top5[:5]
+
+        for i in range(5):
+            top5[i][1] = User.objects.get(username=top5[i][1]).last_name
+
+        context["top5"] = top5
+
+        context["totalSteps"] = int(
+            list(Step.objects.aggregate(Sum("steps")).values())[0]
+        )
+
+        top5 = sorted(top5, key=lambda x: x[1], reverse=False)
+
+        context["first"] = top5[0]
+        context["second"] = top5[1]
+        context["third"] = top5[2]
+        context["fourth"] = top5[3]
+        context["fifth"] = top5[4]
 
         return context
 

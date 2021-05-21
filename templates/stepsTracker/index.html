@@ -5,30 +5,49 @@
         $(document).ready(function () {
             let ctx = document.getElementById('myChart').getContext('2d');
             let myChart = new Chart(ctx, {
-                type: 'doughnut',
+                type: 'bar',
                 data: {
-                    labels: ["Travelled", "Remaining"],
+                    labels: ["{{first.1}}", "{{second.1}}","{{third.1}}","{{fourth.1}}","{{fifth.1}}"],
                     datasets: [{
-                        data: [{{ totalSteps }}, {{ remaining }}],
+                        label: 'Top 5',
+                        data: [{{first.0}}, {{second.0}},{{third.0}},{{fourth.0}},{{fifth.0}}],
                         backgroundColor: [
-                            '#5D386B',
-                            '#02C39A',
+                        'rgba(255, 99, 132, 1)',
+                            'rgba(54, 162, 235, 1)',
+                            'rgba(255, 206, 86, 1)',
+                            'rgba(75, 192, 192, 1)',
+                            'rgba(153, 102, 255, 1)',
+                            'rgba(255, 159, 64, 1)'
                         ],
                         borderColor: [
-                            '#5D386B',
-                            '#02C39A',
+                            'rgba(255, 99, 132, 1)',
+                            'rgba(54, 162, 235, 1)',
+                            'rgba(255, 206, 86, 1)',
+                            'rgba(75, 192, 192, 1)',
+                            'rgba(153, 102, 255, 1)',
+                            'rgba(255, 159, 64, 1)'
                         ],
                         borderWidth: 1
                     }]
                 },
                 options: {
+                    scales: {
+                        yAxes: [{
+                            ticks: {
+                                beginAtZero: true
+                            }
+                        }]
+                    }
+                },
+                options: {
                     legend: {
+                        onClick: null,
                         diaplay: true,
                     },
 
                     scales: {
                         xAxes: [{
-                            display: false //this will remove all the x-axis grid lines
+                            display: true //this will remove all the x-axis grid lines
                         }],
                         yAxes: [{
                             display: false,
@@ -123,10 +142,6 @@
                     </div>
                 {% endfor %}
             {% endif %}
-            <!-- {##}
-            {#            <h1>Thanks to everyone for your contribution</h1>#}
-            {#            <h3>Travelled Distance: {{ totalSteps }} Kms </h3>#}
-            {#            <h3>Goal Distance: 7966 Kms </h3>#} -->
 
             <div class="col">
                 <table id="tablePreview" class="table table-hover">
@@ -157,7 +172,7 @@
             </div>
         </div>
 
-        <!-- <div class="container col-4">
+        <div class="container col-4">
             <div class="row">
                 <br>
                 &nbsp;
@@ -165,7 +180,9 @@
             </div>
             <br>
             <br>
-        </div> -->
+        </div>
     </div>
 
+
+    
 {% endblock content %}
